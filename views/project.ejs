@@ -1,0 +1,158 @@
+
+<%-include("./inc/head.ejs")%>
+<link rel="stylesheet" href="./assets/css/gallery.css">
+<%-include("./inc/nav.ejs")%>
+<style>
+  #gallery {
+    margin-top: 30px; /* İstediğiniz boşluk miktarını ayarlayın */
+}
+.img-wrapper img {
+    width: 50vh; /* Resmin genişliği galeri öğesine tam uyumlu olsun */
+    height: 50vh; /* Resmin yüksekliği galeri öğesine tam uyumlu olsun */
+    object-fit: cover; /* Resim oranını korurken belirtilen boyutlara sığdırma işlemi */
+}
+
+/* Diğer stiller buraya eklenir */
+
+</style>
+    <!-- Breadcrumb Section Start -->
+    <div class="breadcrumb" data-bg-image="https://images.unsplash.com/photo-1628394029761-acc83a2a08a6?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <h1 class="breadcrumb_title">Luxten Park</h1>
+                        <ul class="breadcrumb_list">
+                            <li><a href="index.html">Home</a></li>
+                            <li>Gallery</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+<div>
+    
+    <div>
+        <section id="gallery">
+          <div class="container">
+            <div class="row">
+              <% galleryItems.forEach(item => { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                  <div class="img-wrapper">
+                    <a href="<%= item.imageUrl %>">
+                      <img src="<%= item.imageUrl %>" class="img-fluid" alt="Image">
+                    </a>
+                  </div>
+                </div>
+              <% }); %>
+            </div><!-- End row -->
+          </div><!-- End container --> 
+        </section>
+      </div>
+      
+      
+    <!-- Scroll Top Start -->
+    <a href="#/" class="scroll-top" id="scroll-top">
+        <i class="lastudioicon-up-arrow"></i>
+    </a>
+    <!-- Scroll Top End -->
+
+<div style="width: 100%; margin-top: 2rem; background: #212121;">
+    
+<%-include("./inc/footer.ejs")%>
+
+</div>
+<%-include("./inc/script.ejs")%>
+<script>
+    // Gallery image hover
+$( ".img-wrapper" ).hover(
+  function() {
+    $(this).find(".img-overlay").animate({opacity: 1}, 600);
+  }, function() {
+    $(this).find(".img-overlay").animate({opacity: 0}, 600);
+  }
+);
+
+// Lightbox
+var $overlay = $('<div id="overlay"></div>');
+var $image = $("<img>");
+var $prevButton = $('<div id="prevButton"><i class="fa fa-chevron-left"></i></div>');
+var $nextButton = $('<div id="nextButton"><i class="fa fa-chevron-right"></i></div>');
+var $exitButton = $('<div id="exitButton"><i class="fa fa-times"></i></div>');
+
+// Add overlay
+$overlay.append($image).prepend($prevButton).append($nextButton).append($exitButton);
+$("#gallery").append($overlay);
+
+// Hide overlay on default
+$overlay.hide();
+
+// When an image is clicked
+$(".img-overlay").click(function(event) {
+  // Prevents default behavior
+  event.preventDefault();
+  // Adds href attribute to variable
+  var imageLocation = $(this).prev().attr("href");
+  // Add the image src to $image
+  $image.attr("src", imageLocation);
+  // Fade in the overlay
+  $overlay.fadeIn("slow");
+});
+
+// When the overlay is clicked
+$overlay.click(function() {
+  // Fade out the overlay
+  $(this).fadeOut("slow");
+});
+
+// When next button is clicked
+$nextButton.click(function(event) {
+  // Hide the current image
+  $("#overlay img").hide();
+  // Overlay image location
+  var $currentImgSrc = $("#overlay img").attr("src");
+  // Image with matching location of the overlay image
+  var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
+  // Finds the next image
+  var $nextImg = $($currentImg.closest(".image").next().find("img"));
+  // All of the images in the gallery
+  var $images = $("#image-gallery img");
+  // If there is a next image
+  if ($nextImg.length > 0) { 
+    // Fade in the next image
+    $("#overlay img").attr("src", $nextImg.attr("src")).fadeIn(800);
+  } else {
+    // Otherwise fade in the first image
+    $("#overlay img").attr("src", $($images[0]).attr("src")).fadeIn(800);
+  }
+  // Prevents overlay from being hidden
+  event.stopPropagation();
+});
+
+// When previous button is clicked
+$prevButton.click(function(event) {
+  // Hide the current image
+  $("#overlay img").hide();
+  // Overlay image location
+  var $currentImgSrc = $("#overlay img").attr("src");
+  // Image with matching location of the overlay image
+  var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
+  // Finds the next image
+  var $nextImg = $($currentImg.closest(".image").prev().find("img"));
+  // Fade in the next image
+  $("#overlay img").attr("src", $nextImg.attr("src")).fadeIn(800);
+  // Prevents overlay from being hidden
+  event.stopPropagation();
+});
+
+// When the exit button is clicked
+$exitButton.click(function() {
+  // Fade out the overlay
+  $("#overlay").fadeOut("slow");
+});
+</script>
+</body>
+
+</html>

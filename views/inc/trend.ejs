@@ -1,0 +1,41 @@
+<!-- Product Section Start -->
+<div class="section-padding-03 custom-container-four">
+    <div class="product-row">
+        <div class="product-wrapper order-md-1 order-2">
+            <!-- Section Title Start -->
+            <div class="section-title-05">
+                <h5 class="section-title-05__title"><span>Trend</span></h5>
+            </div>
+            <!-- Section Title End -->
+
+            <div class="product-active-two">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <% products.forEach(function(product) { %>
+                            <% if (product.trend === true) { %>
+                                <!-- swiper-slide start -->
+                                <div class="swiper-slide">
+                                    <!-- Product Item Start -->
+                                    <div class="product-item product-item-05 border text-center">
+                                        <div class="product-item__image">
+                                            <a href="/category"><img width="250" height="250" src="<%= product.imageUrl %>" alt="Product"></a>
+                                        </div>
+                                        <div class="product-item__content" style="margin-top: 15px;">
+                                            <h5 class="product-item__title"><a href="/category" style="font-size: 1.4rem;"><%= product.name %></a></h5>
+                                        </div>
+                                    </div>
+                                    <!-- Product Item End -->
+                                </div>
+                                <!-- swiper-slide end -->
+                            <% } %>
+                        <% }); %>
+                    </div>
+                </div>
+                <div class="swiper-button-next"><i class="lastudioicon-arrow-right"></i></div>
+                <div class="swiper-button-prev"><i class="lastudioicon-arrow-left"></i></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Product Section End -->
